@@ -16,8 +16,6 @@ export default function Homepage() {
   useEffect(() => {
     document.title = title;
   }, []);
-
-  //FIXME ahh make me a click able to link into the /startupform
   return (
     <div>
       <Navbar />
@@ -29,7 +27,7 @@ export default function Homepage() {
           <div className="mt-6">
             <TextArea text={text_data} />
             <div className="mt-4">
-              <Buttons btn_text="Get started" />
+              <Buttons btn_text="Get started" link="/get-started" />
             </div>
           </div>
         </div>

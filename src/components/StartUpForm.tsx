@@ -1,13 +1,13 @@
 "use strict";
 
-//TODO Use firebase ig so.
-
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { db } from "@/firebase";
+import { collection, addDoc } from "firebase/firestore";
 
 export default function StartupForm() {
   const navigate = useNavigate();
@@ -24,10 +24,16 @@ export default function StartupForm() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    localStorage.setItem("startupInfo", JSON.stringify(formData));
-    navigate("/dashboard");
+
+    try {
+      await addDoc(collection(db, "startups"), formData);
+      navigate("/dashboard");
+    } catch (error) {
+      console.error("Error adding document:", error);
+      alert("Failed to save. Try again.");
+    }
   };
 
   return (
